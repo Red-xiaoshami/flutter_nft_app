@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'pages/index/video.dart';
+import 'package:nft_flutter/pages/index/guid.dart';
+import 'package:nft_flutter/routes/index.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +15,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '首页',
+      initialRoute: "/",
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Color.fromARGB(218, 0, 0, 0),
       ),
       home: const MyHomePage(title: '幻核'),
       locale: const Locale('zh', 'CN'),
+      routes: {
+        // "/": (context) => MyHomePage(title: '首页'),
+        "detail_page": Routers.detailPageRoutes(),
+      },
     );
   }
 }
@@ -66,50 +74,38 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.title,
+            style: TextStyle(letterSpacing: 5, fontSize: 20)),
         centerTitle: false,
-        backgroundColor: Color.fromARGB(0, 255, 255, 255),
-        elevation: 0.0,
+        titleSpacing: 0, // 设置文字和图片icon之间的距离
+        backgroundColor: Color.fromARGB(1, 0, 0, 0),
         leading: IconButton(
           icon: new Image.network(
-              'https://huanhe-1300522992.cos.ap-guangzhou.myqcloud.com/assets/images/2%E6%9C%9F%E5%88%87%E5%9B%BE/icon_detail_logo%403x.png'),
+            'https://huanhe-1300522992.cos.ap-guangzhou.myqcloud.com/assets/images/2%E6%9C%9F%E5%88%87%E5%9B%BE/icon_detail_logo%403x.png',
+            width: 30,
+          ),
           tooltip: 'Navigation',
           onPressed: () => debugPrint('标题 icon'),
-          padding: EdgeInsets.all(10.0),
+          iconSize: 20,
         ),
       ),
       body: Center(
-        child: Container(
-          padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Color.fromARGB(88, 48, 95, 68),
-          ),
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: 400,
-          child: Wrap(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                '明代书画名家作品数字特展明代书画名家作品数字特展',
-                textAlign: TextAlign.left,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 246, 243, 243),
-                  fontSize: 16,
-                  overflow: TextOverflow.ellipsis
-                ),
-              ),
-            ],
-          ),
+        child: ListView(
+          shrinkWrap: false,
+          padding: EdgeInsets.fromLTRB(10, 20, 10, 120),
+          children: <Widget>[
+            VideoPlayerScreen(),
+            VideoPlayerScreen(),
+            VideoPlayerScreen(),
+            guidImage()
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
