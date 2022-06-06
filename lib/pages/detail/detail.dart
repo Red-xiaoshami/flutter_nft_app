@@ -13,25 +13,35 @@ class _detailPageState extends State<detailPage> {
 
   List list = []; //列表要展示的数据
 
+  final ScrollController _controller = ScrollController(); // 列表上拉加载
+
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    getData();
+
+    if (mounted) {
+      getData();
+      super.initState();
+    }
+    _controller.addListener(() {
+      //当前位置==最大滑动范围，滑到底了
+      if (_controller.position.pixels == _controller.position.maxScrollExtent) {
+        // getData();
+        print("没有数据了");
+      }
+    });
     print("初始化数据");
   }
 
   //  初始化list数据 加延时模仿网络请求
   Future getData() async {
     setState(() {
-      list = List.generate(15, (i) => '哈喽,我是原始数据 $i');
+      list = List.generate(5, (i) => '哈喽,我是原始数据 $i');
     });
   }
 
   Widget _renderRow(BuildContext context, int index) {
-    return ListTile(
-      title: Text(list[index]),
-    );
+    return productListItem();
   }
 
   /// 下拉刷新方法,为list重新赋值
@@ -95,8 +105,7 @@ class _detailPageState extends State<detailPage> {
                                   left: 0,
                                 ),
                                 child: Image(
-                                  image: NetworkImage(
-                                      'https://growth-1300522992.cos.ap-guangzhou.myqcloud.com/zz/xj/logo/logo.jpg'),
+                                  image: AssetImage("images/logo.jpeg"),
                                   width: 26,
                                   height: 26,
                                 ),
@@ -202,13 +211,16 @@ class _detailPageState extends State<detailPage> {
                               ),
                             ),
                             child: TextButton(
-                                child: const Text(
-                                  "去查看",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+                              child: const Text(
+                                "去查看",
+                                style: TextStyle(
+                                  color: Colors.white,
                                 ),
-                                onPressed: () => {print("object")}),
+                              ),
+                              onPressed: () => {
+                                Navigator.pushNamed(context, "login_steps_1"),
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -272,37 +284,48 @@ class _detailPageState extends State<detailPage> {
                           ),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _onRefresh();
+                      },
                     ),
                   ),
+                  // 产品列表
                   Container(
                     margin: const EdgeInsets.only(top: 15),
                     child: RefreshIndicator(
-                        onRefresh: _onRefresh,
-                        backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
-                        child: Column(
-                          children: [
-                            Wrap(
-                              direction: Axis.horizontal,
-                              spacing: 15,
-                              runSpacing: 15,
-                              children: [
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                                productListItem(),
-                              ],
-                            ),
-                          ],
-                        )),
+                      onRefresh: _onRefresh,
+                      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+                      notificationPredicate: defaultScrollNotificationPredicate,
+                      child: GridView.builder(
+                        shrinkWrap: true, // 根据列表长度自动判断高度
+                        controller: _controller,
+                        physics:
+                            const AlwaysScrollableScrollPhysics(), // 上拉加载触发事件
+
+                        itemCount: list.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, // 横轴2个子widget
+                          childAspectRatio: 0.6, //宽高比
+                          crossAxisSpacing: 15,
+                        ),
+                        itemBuilder: (BuildContext context, int i) {
+                          return _renderRow(context, i);
+                        },
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 30,
+                    ),
+                    child: Text(
+                      "没有更多数据了",
+                      style: TextStyle(
+                        color: Color.fromARGB(221, 41, 40, 40),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   )
                 ],
               ),

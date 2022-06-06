@@ -22,12 +22,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     // Create and store the VideoPlayerController. The VideoPlayerController
     // offers several different constructors to play videos from assets, files,
     // or the internet.
+
     // _controller = VideoPlayerController.network(
-    //   'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    //   'https://growth-1300522992.cos.ap-guangzhou.myqcloud.com/zz/xj/home/xj_home.mp4',
     // );
-    _controller = VideoPlayerController.network(
-      'https://growth-1300522992.cos.ap-guangzhou.myqcloud.com/zz/xj/home/xj_home.mp4',
-    );
+
+    _controller = VideoPlayerController.asset("images/xj_home.mp4");
 
     // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller.initialize();
@@ -72,9 +72,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               },
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               decoration: BoxDecoration(
-                  color: Color.fromARGB(221, 53, 52, 52),
+                  color: const Color.fromARGB(221, 53, 52, 52),
                   borderRadius: BorderRadius.circular(2)),
               child: Column(
                 children: [
@@ -102,8 +102,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       Padding(
                         padding: EdgeInsets.only(left: 20),
                         child: Image(
-                          image: NetworkImage(
-                              'https://growth-1300522992.cos.ap-guangzhou.myqcloud.com/zz/xj/logo/logo.jpg'),
+                          image: AssetImage("images/logo.jpeg"),
                           width: 26,
                           height: 26,
                         ),

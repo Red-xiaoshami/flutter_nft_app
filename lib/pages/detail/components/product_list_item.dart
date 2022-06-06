@@ -14,24 +14,30 @@ class _productListItem extends State<productListItem> {
       width: 165,
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            height: 180,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("images/碧海剑.jpeg"),
-                fit: BoxFit.cover,
-              ),
-            ),
+          GestureDetector(
+            // 点击事件
+            onTap: () => {
+              Navigator.pushNamed(context, "profuct_detail_page"),
+            },
             child: Container(
-              height: double.infinity,
+              width: double.infinity,
+              height: 180,
               decoration: const BoxDecoration(
-                color: Color.fromARGB(168, 0, 0, 0),
+                image: DecorationImage(
+                  image: AssetImage("images/碧海剑.jpeg"),
+                  fit: BoxFit.cover,
+                ),
               ),
-              child: const Center(
-                child: Image(
-                  image: AssetImage("images/sell-all.png"),
-                  width: 80,
+              child: Container(
+                height: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(168, 0, 0, 0),
+                ),
+                child: const Center(
+                  child: Image(
+                    image: AssetImage("images/sell-all.png"),
+                    width: 80,
+                  ),
                 ),
               ),
             ),

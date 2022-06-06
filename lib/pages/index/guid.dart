@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Image guidImage() {
-  return Image(
+  return const Image(
     image: AssetImage("images/guide_banner.jpeg"),
     fit: BoxFit.fitWidth,
   );
