@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Color.fromARGB(218, 0, 0, 0),
+        scaffoldBackgroundColor: const Color.fromARGB(218, 0, 0, 0),
       ),
       home: const MyHomePage(title: '幻核'),
       locale: const Locale('zh', 'CN'),
@@ -58,36 +58,58 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title,
-            style: TextStyle(letterSpacing: 5, fontSize: 20)),
-        centerTitle: false,
-        titleSpacing: 0, // 设置文字和图片icon之间的距离
-        backgroundColor: Color.fromARGB(1, 0, 0, 0),
-        leading: IconButton(
-          icon: new Image.network(
-            'https://huanhe-1300522992.cos.ap-guangzhou.myqcloud.com/assets/images/2%E6%9C%9F%E5%88%87%E5%9B%BE/icon_detail_logo%403x.png',
-            width: 30,
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(
+            widget.title,
+            style: const TextStyle(
+              letterSpacing: 5,
+              fontSize: 20,
+            ),
           ),
-          tooltip: 'Navigation',
-          onPressed: () => debugPrint('标题 icon'),
-          iconSize: 20,
+          centerTitle: false,
+          titleSpacing: 0, // 设置文字和图片icon之间的距离
+          backgroundColor: const Color.fromARGB(1, 0, 0, 0),
+          leading: IconButton(
+            icon: const Image(
+              image: AssetImage("images/icon_detail_logo@3x.png"),
+              fit: BoxFit.cover,
+              width: 30,
+            ),
+            tooltip: 'Navigation',
+            onPressed: () => debugPrint('标题 icon'),
+            iconSize: 20,
+          ),
         ),
-      ),
-      body: Center(
-        child: ListView(
-          shrinkWrap: false,
-          padding: EdgeInsets.fromLTRB(10, 20, 10, 120),
-          children: <Widget>[
-            VideoPlayerScreen(),
-            VideoPlayerScreen(),
-            VideoPlayerScreen(),
-            guidImage()
+        body: Center(
+          child: ListView(
+            shrinkWrap: false,
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 120),
+            children: <Widget>[
+              const VideoPlayerScreen(),
+              const VideoPlayerScreen(),
+              const VideoPlayerScreen(),
+              guidImage()
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: const Color.fromARGB(218, 0, 0, 0),
+          selectedItemColor: const Color.fromARGB(218, 126, 235, 235),
+          unselectedItemColor: Colors.white,
+          items: const [
+            BottomNavigationBarItem(
+              backgroundColor: Colors.white,
+              icon: Icon(Icons.home),
+              label: "首页",
+            ),
+            BottomNavigationBarItem(
+              backgroundColor: Colors.white,
+              icon: Icon(Icons.account_circle_rounded),
+              label: "我的",
+            ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }
